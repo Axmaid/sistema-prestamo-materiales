@@ -5,13 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Biblioteca FES Acatlán</title>
     
-    <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Carga de fuente moderna (Inter) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Carga de Iconos -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <style>
@@ -22,7 +17,6 @@
         ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
         
-        /* Efecto de Scroll (Reveal) */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -33,7 +27,6 @@
             transform: translateY(0);
         }
 
-        /* Animación Marquee (Carrusel infinito) */
         .marquee-container {
             display: flex;
             width: max-content;
@@ -46,43 +39,39 @@
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
-        /* Desvanecimiento en los bordes de la animación */
         .fade-edges {
             -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
             mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
         }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-bg { animation: fadeIn 0.3s ease-out forwards; }
+        .modal-content { animation: scaleUp 0.3s ease-out forwards; }
     </style>
 </head>
 <body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 min-h-screen text-white overflow-x-hidden relative">
 
-    <!-- Elementos decorativos de fondo (Luces) -->
     <div class="fixed top-[-10%] left-[-10%] w-96 h-96 bg-purple-600/30 rounded-full blur-[100px] pointer-events-none z-0"></div>
     <div class="fixed bottom-[-10%] right-[-5%] w-96 h-96 bg-indigo-500/20 rounded-full blur-[100px] pointer-events-none z-0"></div>
 
-    <!-- ========================================== -->
-    <!-- BLOQUE 1: PORTADA (LANDING PAGE)           -->
-    <!-- ========================================== -->
     <section id="vista-portada" class="relative z-10 flex flex-col min-h-screen transition-all duration-500 w-full overflow-hidden">
         
-        <!-- Navbar Pública -->
         <nav class="w-full bg-white/5 backdrop-blur-xl border-b border-white/10 px-6 py-4 fixed top-0 z-50 flex justify-between items-center transition-all">
             <div class="flex items-center gap-3">
                 <i class="ph ph-books text-3xl text-indigo-300"></i>
                 <span class="text-xl font-bold text-white tracking-wide hidden sm:block">FES Acatlán</span>
             </div>
             <div class="flex gap-4 sm:gap-6 items-center">
-                <a href="#catalogo" class="text-gray-300 hover:text-white transition-colors font-medium">Catálogo</a>
+                <a href="#catalogo-portada" class="text-gray-300 hover:text-white transition-colors font-medium">Catálogo</a>
                 <button onclick="cambiarVista('vista-login')" class="px-5 py-2 bg-indigo-500/80 hover:bg-indigo-500 border border-indigo-400 rounded-xl font-medium shadow-[0_0_15px_rgba(99,102,241,0.4)] transition-all flex items-center gap-2">
                     Acceder <i class="ph ph-sign-in"></i>
                 </button>
             </div>
         </nav>
 
-        <!-- Hero Section con Imagen y Efecto Purple Overlay -->
         <div class="relative w-full min-h-[80vh] flex items-center justify-center text-center mt-16 lg:mt-0">
-            <!-- Imagen de fondo de Unsplash -->
             <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&q=80&w=1920')] bg-cover bg-center bg-no-repeat"></div>
-            <!-- Overlay morado oscuro (Efecto Multiply + Gradient) -->
             <div class="absolute inset-0 bg-indigo-950/80 mix-blend-multiply"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/40 to-slate-900"></div>
 
@@ -96,24 +85,21 @@
                 <p class="text-lg md:text-xl text-gray-200 mb-10 font-light drop-shadow-md max-w-2xl mx-auto">
                     Explora nuestro acervo bibliográfico, encuentra los materiales académicos que necesitas y gestiona tus préstamos en un entorno moderno y seguro.
                 </p>
-                <a href="#catalogo" class="px-8 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-full font-medium transition-all duration-300 transform hover:-translate-y-1 inline-flex items-center gap-2">
+                <a href="#catalogo-portada" class="px-8 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-full font-medium transition-all duration-300 transform hover:-translate-y-1 inline-flex items-center gap-2">
                     Explorar Catálogo Físico <i class="ph ph-arrow-down text-lg"></i>
                 </a>
             </div>
         </div>
 
-        <!-- Catálogo Público de Libros -->
-        <div id="catalogo" class="relative z-10 w-full max-w-7xl mx-auto px-6 py-24">
+        <div id="catalogo-portada" class="relative z-10 w-full max-w-7xl mx-auto px-6 py-24">
             <div class="text-center mb-16 reveal">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4">Catálogo de Libros Físicos</h2>
                 <p class="text-indigo-200 text-lg">Explora nuestras áreas de conocimiento y busca el material que necesitas.</p>
             </div>
 
-            <!-- Categorías de Libros (Glassmorphism Cards) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
                 
-                <!-- Categoría 1 -->
-                <div onclick="cambiarVista('vista-login')" class="reveal cursor-pointer bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:shadow-[0_15px_30px_rgba(79,70,229,0.3)] group">
+                <div onclick="irACatalogo('Ciencias Exactas')" class="reveal cursor-pointer bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:shadow-[0_15px_30px_rgba(79,70,229,0.3)] group">
                     <div class="h-20 w-20 bg-gradient-to-br from-blue-500/20 to-indigo-600/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform border border-blue-500/30">
                         <i class="ph ph-function text-4xl text-blue-300"></i>
                     </div>
@@ -121,8 +107,7 @@
                     <p class="text-sm text-indigo-300">Matemáticas, Física y Estadística.</p>
                 </div>
 
-                <!-- Categoría 2 -->
-                <div onclick="cambiarVista('vista-login')" class="reveal cursor-pointer bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:shadow-[0_15px_30px_rgba(79,70,229,0.3)] group" style="transition-delay: 100ms;">
+                <div onclick="irACatalogo('Ingeniería y TI')" class="reveal cursor-pointer bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:shadow-[0_15px_30px_rgba(79,70,229,0.3)] group" style="transition-delay: 100ms;">
                     <div class="h-20 w-20 bg-gradient-to-br from-emerald-500/20 to-teal-600/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform border border-emerald-500/30">
                         <i class="ph ph-code text-4xl text-emerald-300"></i>
                     </div>
@@ -130,8 +115,7 @@
                     <p class="text-sm text-indigo-300">Programación, Algoritmia y Sistemas.</p>
                 </div>
 
-                <!-- Categoría 3 -->
-                <div onclick="cambiarVista('vista-login')" class="reveal cursor-pointer bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:shadow-[0_15px_30px_rgba(79,70,229,0.3)] group" style="transition-delay: 200ms;">
+                <div onclick="irACatalogo('Humanidades')" class="reveal cursor-pointer bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:shadow-[0_15px_30px_rgba(79,70,229,0.3)] group" style="transition-delay: 200ms;">
                     <div class="h-20 w-20 bg-gradient-to-br from-purple-500/20 to-pink-600/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform border border-purple-500/30">
                         <i class="ph ph-books text-4xl text-purple-300"></i>
                     </div>
@@ -139,31 +123,43 @@
                     <p class="text-sm text-indigo-300">Derecho, Historia y Filosofía.</p>
                 </div>
 
-                <!-- Categoría 4 -->
-                <div onclick="cambiarVista('vista-login')" class="reveal cursor-pointer bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:shadow-[0_15px_30px_rgba(79,70,229,0.3)] group" style="transition-delay: 300ms;">
+                <div onclick="irACatalogo('Idiomas')" class="reveal cursor-pointer bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:shadow-[0_15px_30px_rgba(79,70,229,0.3)] group" style="transition-delay: 300ms;">
                     <div class="h-20 w-20 bg-gradient-to-br from-orange-500/20 to-red-600/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform border border-orange-500/30">
                         <i class="ph ph-globe-hemisphere-west text-4xl text-orange-300"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-2">Idiomas</h3>
                     <p class="text-sm text-indigo-300">Inglés, Francés, Literatura Extranjera.</p>
                 </div>
+
+                <div onclick="irACatalogo('Ciencias Sociales')" class="reveal cursor-pointer bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:shadow-[0_15px_30px_rgba(79,70,229,0.3)] group" style="transition-delay: 400ms;">
+                    <div class="h-20 w-20 bg-gradient-to-br from-yellow-500/20 to-orange-600/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform border border-yellow-500/30">
+                        <i class="ph ph-users-three text-4xl text-yellow-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Ciencias Sociales</h3>
+                    <p class="text-sm text-indigo-300">Economía, Sociología y Política.</p>
+                </div>
+
+                <div onclick="irACatalogo('Arquitectura y Diseño')" class="reveal cursor-pointer bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:shadow-[0_15px_30px_rgba(79,70,229,0.3)] group" style="transition-delay: 500ms;">
+                    <div class="h-20 w-20 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform border border-cyan-500/30">
+                        <i class="ph ph-compass-tool text-4xl text-cyan-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Arquitectura y Diseño</h3>
+                    <p class="text-sm text-indigo-300">Urbanismo, Arte y Construcción.</p>
+                </div>
             </div>
 
-            <!-- Buscador Moderno -->
             <div class="max-w-3xl mx-auto text-center reveal mb-16">
                 <h3 class="text-2xl font-semibold mb-6">¿Buscas un título en específico?</h3>
                 <div class="relative flex items-center justify-center group">
-                    <input type="text" placeholder="Ej. Cálculo de Stewart, Métodos Numéricos..." onclick="cambiarVista('vista-login')" class="w-full pl-6 pr-36 py-4 bg-white/5 backdrop-blur-xl border border-white/20 rounded-full focus:outline-none focus:border-indigo-400 text-white placeholder-gray-400 shadow-[0_0_20px_rgba(255,255,255,0.05)] text-lg transition-all hover:bg-white/10 cursor-pointer">
-                    <button onclick="cambiarVista('vista-login')" class="absolute right-2 top-2 bottom-2 px-6 bg-indigo-600/80 hover:bg-indigo-500 text-white font-medium rounded-full shadow-lg transition-all flex items-center gap-2 border border-indigo-400">
+                    <input type="text" id="buscador-portada" placeholder="Ej. Cálculo de Stewart, Métodos Numéricos..." onkeypress="manejarEnter(event)" class="w-full pl-6 pr-36 py-4 bg-white/5 backdrop-blur-xl border border-white/20 rounded-full focus:outline-none focus:border-indigo-400 text-white placeholder-gray-400 shadow-[0_0_20px_rgba(255,255,255,0.05)] text-lg transition-all hover:bg-white/10 cursor-pointer">
+                    <button onclick="buscarDesdePortada()" class="absolute right-2 top-2 bottom-2 px-6 bg-indigo-600/80 hover:bg-indigo-500 text-white font-medium rounded-full shadow-lg transition-all flex items-center gap-2 border border-indigo-400">
                         Buscar <i class="ph ph-magnifying-glass"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Animación Marquee (Libros pasando) -->
             <div class="w-full overflow-hidden relative py-4 reveal fade-edges">
                 <div class="marquee-container flex gap-6">
-                    <!-- Set 1 -->
                     <span class="px-6 py-2 bg-white/5 border border-white/10 rounded-full text-indigo-200 font-medium whitespace-nowrap shadow-sm"><i class="ph ph-book-open mr-2 text-indigo-400"></i> Cálculo IV</span>
                     <span class="px-6 py-2 bg-white/5 border border-white/10 rounded-full text-indigo-200 font-medium whitespace-nowrap shadow-sm"><i class="ph ph-book-open mr-2 text-indigo-400"></i> Métodos Numéricos 2</span>
                     <span class="px-6 py-2 bg-white/5 border border-white/10 rounded-full text-indigo-200 font-medium whitespace-nowrap shadow-sm"><i class="ph ph-book-open mr-2 text-indigo-400"></i> Optimización I</span>
@@ -171,7 +167,6 @@
                     <span class="px-6 py-2 bg-white/5 border border-white/10 rounded-full text-indigo-200 font-medium whitespace-nowrap shadow-sm"><i class="ph ph-book-open mr-2 text-indigo-400"></i> Estructuras de Datos</span>
                     <span class="px-6 py-2 bg-white/5 border border-white/10 rounded-full text-indigo-200 font-medium whitespace-nowrap shadow-sm"><i class="ph ph-book-open mr-2 text-indigo-400"></i> Ingeniería de Software</span>
                     
-                    <!-- Set 2 (Duplicado exacto para crear el bucle infinito suave) -->
                     <span class="px-6 py-2 bg-white/5 border border-white/10 rounded-full text-indigo-200 font-medium whitespace-nowrap shadow-sm"><i class="ph ph-book-open mr-2 text-indigo-400"></i> Cálculo IV</span>
                     <span class="px-6 py-2 bg-white/5 border border-white/10 rounded-full text-indigo-200 font-medium whitespace-nowrap shadow-sm"><i class="ph ph-book-open mr-2 text-indigo-400"></i> Métodos Numéricos 2</span>
                     <span class="px-6 py-2 bg-white/5 border border-white/10 rounded-full text-indigo-200 font-medium whitespace-nowrap shadow-sm"><i class="ph ph-book-open mr-2 text-indigo-400"></i> Optimización I</span>
@@ -180,16 +175,59 @@
                     <span class="px-6 py-2 bg-white/5 border border-white/10 rounded-full text-indigo-200 font-medium whitespace-nowrap shadow-sm"><i class="ph ph-book-open mr-2 text-indigo-400"></i> Ingeniería de Software</span>
                 </div>
             </div>
-
         </div>
     </section>
-    <!-- FIN BLOQUE 1 -->
 
+    <section id="vista-catalogo" class="hidden relative z-10 flex flex-col min-h-screen transition-all duration-500 w-full">
+        <nav class="w-full bg-white/5 backdrop-blur-xl border-b border-white/10 px-6 py-4 fixed top-0 z-40 flex items-center justify-between">
+            <button onclick="cambiarVista('vista-portada')" class="text-gray-300 hover:text-white flex items-center gap-2 transition-colors">
+                <i class="ph ph-arrow-left text-xl"></i> Volver a Portada
+            </button>
+            <div class="hidden md:flex gap-2" id="filtros-rapidos">
+                <button onclick="filtrarCatalogo('Todos')" class="px-4 py-1.5 rounded-full text-sm font-medium transition-all bg-indigo-500/80 text-white">Todos</button>
+                <button onclick="filtrarCatalogo('Ciencias Exactas')" class="px-4 py-1.5 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 text-sm font-medium transition-all text-gray-300">Exactas</button>
+                <button onclick="filtrarCatalogo('Ingeniería y TI')" class="px-4 py-1.5 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 text-sm font-medium transition-all text-gray-300">Ingeniería</button>
+                <button onclick="filtrarCatalogo('Humanidades')" class="px-4 py-1.5 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 text-sm font-medium transition-all text-gray-300">Humanidades</button>
+            </div>
+        </nav>
 
-    <!-- ========================================== -->
-    <!-- BLOQUE 2: INICIO DE SESIÓN (LOGIN)         -->
-    <!-- ========================================== -->
-    <!-- Nota: La clase "hidden" oculta esta sección por defecto -->
+        <div class="w-full max-w-7xl mx-auto px-6 pt-28 pb-20 flex-1">
+            <div class="relative w-full max-w-2xl mx-auto mb-10">
+                <i class="ph ph-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl"></i>
+                <input type="text" id="buscador-interno" oninput="ejecutarBusquedaInterna()" placeholder="Buscar por título, autor o palabra clave..." class="w-full pl-12 pr-4 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl focus:outline-none focus:border-indigo-400 text-white placeholder-gray-400 text-lg transition-all shadow-[0_0_20px_rgba(255,255,255,0.05)]">
+            </div>
+            
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold" id="titulo-resultados">Mostrando Todos los Libros</h2>
+                <p class="text-indigo-200 text-sm" id="contador-resultados"></p>
+            </div>
+
+            <div id="grid-libros" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            </div>
+        </div>
+    </section>
+
+    <div id="modal-libro" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm modal-bg" onclick="cerrarModal()"></div>
+        
+        <div class="relative bg-slate-900 border border-white/20 p-8 rounded-3xl shadow-2xl max-w-sm w-full m-4 modal-content flex flex-col items-center text-center">
+            <button onclick="cerrarModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                <i class="ph ph-x text-2xl"></i>
+            </button>
+            
+            <img id="modal-img" src="" alt="Portada Libro" class="w-32 h-48 object-cover rounded-lg shadow-lg mb-6 border border-white/10">
+            <h3 id="modal-titulo" class="text-xl font-bold mb-1"></h3>
+            <p id="modal-autor" class="text-indigo-300 text-sm mb-1"></p>
+            <p id="modal-anio" class="text-gray-400 text-xs mb-4"></p>
+            <span id="modal-categoria" class="px-3 py-1 bg-white/10 border border-white/20 rounded-full text-[10px] text-gray-300 mb-8 inline-block uppercase tracking-wider"></span>
+            
+            <button onclick="solicitarPrestamo()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(79,70,229,0.4)] flex items-center justify-center gap-2">
+                Solicitar Préstamo <i class="ph ph-bookmark-simple"></i>
+            </button>
+            <p class="mt-3 text-[11px] text-gray-500">Se requiere iniciar sesión con cuenta institucional.</p>
+        </div>
+    </div>
+
     <section id="vista-login" class="hidden relative z-10 flex flex-col items-center justify-center min-h-screen p-6 transition-all duration-500">
         <div class="bg-white/10 backdrop-blur-xl border border-white/20 p-8 md:p-10 rounded-3xl shadow-2xl w-full max-w-md">
             
@@ -201,7 +239,6 @@
             <p class="text-indigo-200 text-sm mb-8">Ingresa tus credenciales institucionales para continuar.</p>
             
             <form onsubmit="iniciarSesion(event)" class="space-y-6">
-                <!-- Input de ID (Actualizado a Número de Cuenta) -->
                 <div>
                     <label class="block text-sm font-medium text-gray-300 mb-2">Número de Cuenta / ID</label>
                     <div class="relative">
@@ -211,7 +248,6 @@
                     </div>
                 </div>
 
-                <!-- Input de Contraseña -->
                 <div>
                     <label class="block text-sm font-medium text-gray-300 mb-2">Contraseña</label>
                     <div class="relative">
@@ -227,16 +263,8 @@
             </form>
         </div>
     </section>
-    <!-- FIN BLOQUE 2 -->
 
-
-    <!-- ========================================== -->
-    <!-- BLOQUE 3: DASHBOARD (PANEL DEL SISTEMA)    -->
-    <!-- ========================================== -->
-    <!-- Nota: La clase "hidden" oculta esta sección por defecto -->
     <section id="vista-dashboard" class="hidden relative z-10 flex flex-col md:flex-row h-screen overflow-hidden transition-all duration-500">
-        
-        <!-- SIDEBAR -->
         <aside class="w-full md:w-64 bg-white/5 backdrop-blur-xl border-r border-white/10 flex flex-col">
             <div class="p-6 border-b border-white/10 flex items-center gap-3">
                 <div class="p-2 bg-indigo-500/30 rounded-xl border border-indigo-300/30">
@@ -267,7 +295,6 @@
             </div>
         </aside>
 
-        <!-- CONTENIDO PRINCIPAL -->
         <main class="flex-1 flex flex-col h-screen overflow-y-auto p-8">
             <header class="pb-4 flex justify-between items-end mb-8 border-b border-white/10">
                 <div>
@@ -279,7 +306,6 @@
                 </button>
             </header>
 
-            <!-- Tarjetas -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div class="bg-white/5 border border-white/10 p-6 rounded-2xl">
                     <p class="text-sm text-gray-400 font-medium">Préstamos Activos</p>
@@ -295,7 +321,6 @@
                 </div>
             </div>
 
-            <!-- Tabla -->
             <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
                 <h3 class="text-xl font-bold mb-6">Últimos movimientos</h3>
                 <table class="w-full text-left text-sm">
@@ -317,56 +342,205 @@
             </div>
         </main>
     </section>
-    <!-- FIN BLOQUE 3 -->
 
-
-    <!-- ========================================== -->
-    <!-- BLOQUE 4: JAVASCRIPT (LÓGICA DE NAVEGACIÓN)-->
-    <!-- ========================================== -->
     <script>
-        // Función para cambiar entre las 3 vistas principales
+        const imgGenerica = 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&q=80';
+        
+        const bdLibros = [
+            { id: 1, titulo: "Cálculo de una variable", autor: "James Stewart", anio: 2018, categoria: "Ciencias Exactas", img: imgGenerica },
+            { id: 2, titulo: "Álgebra Lineal", autor: "Stanley I. Grossman", anio: 2012, categoria: "Ciencias Exactas", img: imgGenerica },
+            { id: 3, titulo: "Ecuaciones Diferenciales", autor: "Dennis G. Zill", anio: 2017, categoria: "Ciencias Exactas", img: imgGenerica },
+            { id: 4, titulo: "Física Universitaria Vol. 1", autor: "Sears y Zemansky", anio: 2013, categoria: "Ciencias Exactas", img: imgGenerica },
+            { id: 5, titulo: "Geometría Analítica", autor: "Charles H. Lehmann", anio: 1989, categoria: "Ciencias Exactas", img: imgGenerica },
+            { id: 6, titulo: "Variable Compleja y Aplicaciones", autor: "Ruel V. Churchill", anio: 2014, categoria: "Ciencias Exactas", img: imgGenerica },
+            { id: 7, titulo: "Probabilidad y Estadística", autor: "Ronald E. Walpole", anio: 2012, categoria: "Ciencias Exactas", img: imgGenerica },
+            { id: 8, titulo: "Métodos Numéricos para Ingenieros", autor: "Steven C. Chapra", anio: 2015, categoria: "Ciencias Exactas", img: imgGenerica },
+            { id: 9, titulo: "Topología", autor: "James R. Munkres", anio: 2002, categoria: "Ciencias Exactas", img: imgGenerica },
+            { id: 10, titulo: "Análisis Matemático", autor: "Tom M. Apostol", anio: 1972, categoria: "Ciencias Exactas", img: imgGenerica },
+
+            { id: 11, titulo: "Clean Code: Código Limpio", autor: "Robert C. Martin", anio: 2008, categoria: "Ingeniería y TI", img: imgGenerica },
+            { id: 12, titulo: "Ingeniería de Software", autor: "Ian Sommerville", anio: 2011, categoria: "Ingeniería y TI", img: imgGenerica },
+            { id: 13, titulo: "Estructuras de Datos", autor: "Luis Joyanes Aguilar", anio: 2008, categoria: "Ingeniería y TI", img: imgGenerica },
+            { id: 14, titulo: "Redes de Computadoras", autor: "Kurose & Ross", anio: 2017, categoria: "Ingeniería y TI", img: imgGenerica },
+            { id: 15, titulo: "Inteligencia Artificial", autor: "Stuart Russell", anio: 2010, categoria: "Ingeniería y TI", img: imgGenerica },
+            { id: 16, titulo: "Fundamentos de Sistemas Operativos", autor: "Abraham Silberschatz", anio: 2013, categoria: "Ingeniería y TI", img: imgGenerica },
+            { id: 17, titulo: "Introducción a los Algoritmos", autor: "Thomas H. Cormen", anio: 2009, categoria: "Ingeniería y TI", img: imgGenerica },
+            { id: 18, titulo: "Diseño de Bases de Datos", autor: "C.J. Date", anio: 2001, categoria: "Ingeniería y TI", img: imgGenerica },
+            { id: 19, titulo: "Patrones de Diseño", autor: "GoF", anio: 1994, categoria: "Ingeniería y TI", img: imgGenerica },
+            { id: 20, titulo: "Arquitectura de Computadoras", autor: "David A. Patterson", anio: 2014, categoria: "Ingeniería y TI", img: imgGenerica },
+
+            { id: 21, titulo: "El Príncipe", autor: "Nicolás Maquiavelo", anio: 1532, categoria: "Humanidades", img: imgGenerica },
+            { id: 22, titulo: "Ética a Nicómaco", autor: "Aristóteles", anio: -349, categoria: "Humanidades", img: imgGenerica },
+            { id: 23, titulo: "Crítica de la Razón Pura", autor: "Immanuel Kant", anio: 1781, categoria: "Humanidades", img: imgGenerica },
+            { id: 24, titulo: "Leviatán", autor: "Thomas Hobbes", anio: 1651, categoria: "Humanidades", img: imgGenerica },
+            { id: 25, titulo: "El Contrato Social", autor: "Jean-Jacques Rousseau", anio: 1762, categoria: "Humanidades", img: imgGenerica },
+            { id: 26, titulo: "Meditaciones Metafísicas", autor: "René Descartes", anio: 1641, categoria: "Humanidades", img: imgGenerica },
+            { id: 27, titulo: "Fenomenología del Espíritu", autor: "G.W.F. Hegel", anio: 1807, categoria: "Humanidades", img: imgGenerica },
+            { id: 28, titulo: "Así habló Zaratustra", autor: "Friedrich Nietzsche", anio: 1883, categoria: "Humanidades", img: imgGenerica },
+            { id: 29, titulo: "El Mundo como Voluntad y Representación", autor: "Arthur Schopenhauer", anio: 1819, categoria: "Humanidades", img: imgGenerica },
+            { id: 30, titulo: "Historia de la Filosofía", autor: "Johannes Hirschberger", anio: 1954, categoria: "Humanidades", img: imgGenerica },
+
+            { id: 31, titulo: "English Grammar in Use", autor: "Raymond Murphy", anio: 2019, categoria: "Idiomas", img: imgGenerica },
+            { id: 32, titulo: "Le Nouveau Taxi! 1", autor: "Capelle & Menand", anio: 2009, categoria: "Idiomas", img: imgGenerica },
+            { id: 33, titulo: "Minna no Nihongo Shokyu I", autor: "3A Corporation", anio: 2012, categoria: "Idiomas", img: imgGenerica },
+            { id: 34, titulo: "Gramática de uso del Español", autor: "Luis Aragonés", anio: 2007, categoria: "Idiomas", img: imgGenerica },
+            { id: 35, titulo: "Cambridge Advanced Learner's Dictionary", autor: "Cambridge", anio: 2013, categoria: "Idiomas", img: imgGenerica },
+            { id: 36, titulo: "TOEFL iBT Prep Plus", autor: "Kaplan", anio: 2020, categoria: "Idiomas", img: imgGenerica },
+            { id: 37, titulo: "Schritte International (Alemán)", autor: "Daniela Niebisch", anio: 2006, categoria: "Idiomas", img: imgGenerica },
+            { id: 38, titulo: "Italiano en 30 días", autor: "Berlitz", anio: 2015, categoria: "Idiomas", img: imgGenerica },
+            { id: 39, titulo: "Vocabulaire en Dialogues", autor: "Evelyne Sirejols", anio: 2007, categoria: "Idiomas", img: imgGenerica },
+            { id: 40, titulo: "Diccionario Oxford Pocket", autor: "Oxford University", anio: 2010, categoria: "Idiomas", img: imgGenerica },
+
+            { id: 41, titulo: "Economía", autor: "Paul A. Samuelson", anio: 2010, categoria: "Ciencias Sociales", img: imgGenerica },
+            { id: 42, titulo: "Sociología", autor: "Anthony Giddens", anio: 2014, categoria: "Ciencias Sociales", img: imgGenerica },
+            { id: 43, titulo: "El Capital", autor: "Karl Marx", anio: 1867, categoria: "Ciencias Sociales", img: imgGenerica },
+            { id: 44, titulo: "Microeconomía", autor: "Robert S. Pindyck", anio: 2013, categoria: "Ciencias Sociales", img: imgGenerica },
+            { id: 45, titulo: "Derecho Constitucional Mexicano", autor: "Ignacio Burgoa", anio: 2011, categoria: "Ciencias Sociales", img: imgGenerica },
+            { id: 46, titulo: "Psicología", autor: "David G. Myers", anio: 2011, categoria: "Ciencias Sociales", img: imgGenerica },
+            { id: 47, titulo: "Relaciones Internacionales", autor: "Pearson", anio: 2015, categoria: "Ciencias Sociales", img: imgGenerica },
+            { id: 48, titulo: "Comportamiento Organizacional", autor: "Stephen P. Robbins", anio: 2013, categoria: "Ciencias Sociales", img: imgGenerica },
+            { id: 49, titulo: "Antropología Cultural", autor: "Marvin Harris", anio: 2001, categoria: "Ciencias Sociales", img: imgGenerica },
+            { id: 50, titulo: "Teoría Política", autor: "Giovanni Sartori", anio: 1987, categoria: "Ciencias Sociales", img: imgGenerica },
+
+            { id: 51, titulo: "Historia de la Arquitectura", autor: "Spiro Kostof", anio: 1995, categoria: "Arquitectura y Diseño", img: imgGenerica },
+            { id: 52, titulo: "El Diseño de Espacios", autor: "Francis D.K. Ching", anio: 2015, categoria: "Arquitectura y Diseño", img: imgGenerica },
+            { id: 53, titulo: "Estructuras para Arquitectos", autor: "Mario Salvadori", anio: 1990, categoria: "Arquitectura y Diseño", img: imgGenerica },
+            { id: 54, titulo: "Teoría del Diseño", autor: "Wucius Wong", anio: 1995, categoria: "Arquitectura y Diseño", img: imgGenerica },
+            { id: 55, titulo: "Urbanismo", autor: "Le Corbusier", anio: 1925, categoria: "Arquitectura y Diseño", img: imgGenerica },
+            { id: 56, titulo: "Materiales de Construcción", autor: "William Smith", anio: 2006, categoria: "Arquitectura y Diseño", img: imgGenerica },
+            { id: 57, titulo: "Historia del Arte", autor: "E.H. Gombrich", anio: 1950, categoria: "Arquitectura y Diseño", img: imgGenerica },
+            { id: 58, titulo: "Dibujo Arquitectónico", autor: "Francis D.K. Ching", anio: 2012, categoria: "Arquitectura y Diseño", img: imgGenerica },
+            { id: 59, titulo: "Paisajismo Contemporáneo", autor: "Martha Schwartz", anio: 2004, categoria: "Arquitectura y Diseño", img: imgGenerica },
+            { id: 60, titulo: "Arte y Percepción Visual", autor: "Rudolf Arnheim", anio: 1954, categoria: "Arquitectura y Diseño", img: imgGenerica }
+        ];
+
         function cambiarVista(idVistaDestino) {
-            // 1. Ocultar todas las vistas (agregando la clase 'hidden')
             document.getElementById('vista-portada').classList.add('hidden');
             document.getElementById('vista-login').classList.add('hidden');
             document.getElementById('vista-dashboard').classList.add('hidden');
-
-            // 2. Mostrar solo la vista que solicitamos (quitando la clase 'hidden')
+            document.getElementById('vista-catalogo').classList.add('hidden');
+            
             document.getElementById(idVistaDestino).classList.remove('hidden');
+            window.scrollTo(0, 0); 
         }
 
-        // Función que simula el inicio de sesión
+        function normalizarTexto(texto) {
+            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+        }
+
+        function irACatalogo(categoria) {
+            cambiarVista('vista-catalogo');
+            document.getElementById('buscador-interno').value = '';
+            filtrarCatalogo(categoria);
+        }
+
+        function buscarDesdePortada() {
+            let termino = document.getElementById('buscador-portada').value;
+            cambiarVista('vista-catalogo');
+            document.getElementById('buscador-interno').value = termino;
+            ejecutarBusquedaInterna();
+        }
+
+        function manejarEnter(e) {
+            if(e.key === 'Enter') buscarDesdePortada();
+        }
+
+        function ejecutarBusquedaInterna() {
+            let termino = document.getElementById('buscador-interno').value;
+            filtrarCatalogo('Todos', termino);
+        }
+
+        function filtrarCatalogo(categoria, terminoBusqueda = "") {
+            let resultados = bdLibros;
+
+            if (categoria !== 'Todos') {
+                resultados = resultados.filter(libro => libro.categoria === categoria);
+                document.getElementById('titulo-resultados').innerText = `Categoría: ${categoria}`;
+            } else {
+                document.getElementById('titulo-resultados').innerText = terminoBusqueda ? `Resultados de Búsqueda` : `Todos los Libros`;
+            }
+
+            if (terminoBusqueda) {
+                let textLimpio = normalizarTexto(terminoBusqueda);
+                resultados = resultados.filter(libro => {
+                    let tit = normalizarTexto(libro.titulo);
+                    let aut = normalizarTexto(libro.autor);
+                    let cat = normalizarTexto(libro.categoria);
+                    return tit.includes(textLimpio) || aut.includes(textLimpio) || cat.includes(textLimpio);
+                });
+            }
+
+            document.querySelectorAll('#filtros-rapidos button').forEach(btn => {
+                btn.className = "px-4 py-1.5 rounded-full border border-white/20 hover:bg-white/20 text-sm font-medium transition-all text-gray-300";
+                if(btn.innerText.includes(categoria) || (categoria==='Todos' && btn.innerText==='Todos')) {
+                    btn.className = "px-4 py-1.5 rounded-full text-sm font-medium transition-all bg-indigo-500/80 text-white";
+                }
+            });
+
+            document.getElementById('contador-resultados').innerText = `${resultados.length} libros encontrados`;
+            renderizarLibros(resultados);
+        }
+
+        function renderizarLibros(arrayLibros) {
+            const grid = document.getElementById('grid-libros');
+            grid.innerHTML = '';
+
+            if(arrayLibros.length === 0) {
+                grid.innerHTML = `<p class="col-span-full text-center text-gray-400 py-10 text-lg">No se encontraron materiales que coincidan con la búsqueda.</p>`;
+                return;
+            }
+
+            arrayLibros.forEach(libro => {
+                let card = document.createElement('div');
+                card.className = "bg-white/5 border border-white/10 p-4 rounded-2xl cursor-pointer hover:bg-white/10 hover:border-indigo-400/50 transition-all hover:-translate-y-1 shadow-lg";
+                card.onclick = () => abrirModal(libro.id);
+                card.innerHTML = `
+                    <img src="${libro.img}" alt="${libro.titulo}" class="w-full h-48 object-cover rounded-xl mb-4 border border-white/5 opacity-90 hover:opacity-100 transition-opacity">
+                    <span class="text-[10px] font-bold text-indigo-300 uppercase tracking-wider mb-1 block">${libro.categoria}</span>
+                    <h4 class="font-bold text-base mb-1 leading-tight line-clamp-2">${libro.titulo}</h4>
+                    <p class="text-xs text-gray-400 line-clamp-1">${libro.autor}</p>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function abrirModal(idLibro) {
+            let libro = bdLibros.find(l => l.id === idLibro);
+            if(!libro) return;
+
+            document.getElementById('modal-img').src = libro.img;
+            document.getElementById('modal-titulo').innerText = libro.titulo;
+            document.getElementById('modal-autor').innerText = libro.autor;
+            document.getElementById('modal-anio').innerText = `Año de edición: ${libro.anio}`;
+            document.getElementById('modal-categoria').innerText = libro.categoria;
+
+            document.getElementById('modal-libro').classList.remove('hidden');
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal-libro').classList.add('hidden');
+        }
+
+        function solicitarPrestamo() {
+            cerrarModal(); 
+            cambiarVista('vista-login'); 
+        }
+
         function iniciarSesion(evento) {
-            // Evita que la página se recargue al enviar el formulario
             evento.preventDefault(); 
-            
-            // Aquí iría tu código para validar con Supabase después.
-            // Por ahora, solo nos manda directo al Dashboard.
             cambiarVista('vista-dashboard');
         }
 
-        // --- NUEVA LÓGICA: Efecto de revelar al hacer Scroll ---
         document.addEventListener("DOMContentLoaded", function() {
-            // Configurar el Intersection Observer
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.15 // El elemento aparecerá cuando el 15% sea visible
-            };
-
-            const observer = new IntersectionObserver((entries, observer) => {
+            const observer = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('active'); // Agrega la clase que desencadena la animación CSS
-                        observer.unobserve(entry.target); // Dejar de observar una vez que ya apareció
+                        entry.target.classList.add('active');
+                        obs.unobserve(entry.target);
                     }
                 });
-            }, observerOptions);
-
-            // Observar todos los elementos que tengan la clase .reveal
-            document.querySelectorAll('.reveal').forEach(elemento => {
-                observer.observe(elemento);
-            });
+            }, { threshold: 0.15 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         });
     </script>
 </body>
